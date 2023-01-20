@@ -1,37 +1,36 @@
-package org.greatlearning.tt.services;
+package org.greatlearning.tickettracker.services;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Optional;
 
-import org.greatlearning.tt.entity.Ticket;
-import org.greatlearning.tt.repo.TicketRepo;
+import org.greatlearning.tickettracker.entity.TicketTrackerEntity;
+import org.greatlearning.tickettracker.repo.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class TicketServiceImpl implements Service {
+public class TicketService implements Service {
 
 	// autowiring the ticketrepo class
 	@Autowired
-	private TicketRepo ticketRepo;
+	private Repository ticketRepo;
 
 	// creating ticket function
-	public void addTicket(Ticket t) {
+	public void addTicket(TicketTrackerEntity t) {
 
 		ticketRepo.save(t);
 	}
 
 	// reading tickets
-	public List<Ticket> getAllTickets() {
+	public List<TicketTrackerEntity> getAllTickets() {
 		return ticketRepo.findAll();
 	}
 
 	// finding ticket by id to edit and update ticket
-	public Ticket getTicketById(int id) {
+	public TicketTrackerEntity getTicketById(int id) {
 
-		Optional<Ticket> t = ticketRepo.findById(id);
+		Optional<TicketTrackerEntity> t = ticketRepo.findById(id);
 		if (t.isPresent()) {
 			return t.get();
 		}
@@ -46,7 +45,7 @@ public class TicketServiceImpl implements Service {
 	}
 
 	// search function
-	public List<Ticket> getByKeyword(String keyword) {
+	public List<TicketTrackerEntity> getByKeyword(String keyword) {
 		return ticketRepo.findByKeyword(keyword);
 	}
 

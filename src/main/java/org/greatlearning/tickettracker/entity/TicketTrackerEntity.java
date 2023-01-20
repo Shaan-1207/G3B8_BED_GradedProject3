@@ -1,4 +1,4 @@
-package org.greatlearning.tt.entity;
+package org.greatlearning.tickettracker.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "Tickets")
-public class Ticket {
+public class TicketTrackerEntity {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

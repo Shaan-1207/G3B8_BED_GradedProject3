@@ -1,9 +1,9 @@
-package org.greatlearning.tt.controller;
+package org.greatlearning.tickettracker.controller;
 
 import java.util.List;
 
-import org.greatlearning.tt.entity.Ticket;
-import org.greatlearning.tt.services.TicketServiceImpl;
+import org.greatlearning.tickettracker.entity.TicketTrackerEntity;
+import org.greatlearning.tickettracker.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,33 +13,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
 @RequestMapping("/")
-public class TicketController {
+public class TicketTrackerController {
 
 	// injecting ticket serviceimpl
 	@Autowired
-	private TicketServiceImpl ticketServiceImpl;
+	private TicketService ticketServiceImpl;
 
 	// index page
 	@GetMapping("/tickets")
 	public String mainPage(Model theModel) {
 
-		List<Ticket> ticket = ticketServiceImpl.getAllTickets();
+		List<TicketTrackerEntity> ticket = ticketServiceImpl.getAllTickets();
 		theModel.addAttribute("ticket", ticket);
 		return "index";
 	}
 
 	// new ticket page
-	@GetMapping("/newTicket")
+	@GetMapping("/newPage")
 	public String newTicketPage() {
-		return "newTicket";
+		return "newPage";
 	}
 
 	// adding new data
 	@PostMapping("/create")
-	public String createTicket(@ModelAttribute Ticket t) {
+	public String createTicket(@ModelAttribute TicketTrackerEntity t) {
 		System.out.println(t);
 
 		ticketServiceImpl.addTicket(t);
@@ -49,17 +48,17 @@ public class TicketController {
 
 	// viewing the edit page
 	@GetMapping("/edit/{id}")
-	public String editTicket(@PathVariable int id, Model themodel) {
+	public String editPage(@PathVariable int id, Model themodel) {
 
-		Ticket t = ticketServiceImpl.getTicketById(id);
+		TicketTrackerEntity t = ticketServiceImpl.getTicketById(id);
 		themodel.addAttribute("ticket", t);
-		return "editTicket";
+		return "editPage";
 
 	}
 
 	// updating the changes
 	@PostMapping("/update")
-	public String updateTicket(@ModelAttribute Ticket t) {
+	public String updateTicket(@ModelAttribute TicketTrackerEntity t) {
 
 		ticketServiceImpl.addTicket(t);
 		return "redirect:/tickets";
@@ -75,17 +74,17 @@ public class TicketController {
 
 	// viewing ticket
 	@GetMapping("/view/{id}")
-	public String viewTicket(@PathVariable int id, Model theModel) {
+	public String viewPage(@PathVariable int id, Model theModel) {
 
-		Ticket ticket = ticketServiceImpl.getTicketById(id);
+		TicketTrackerEntity ticket = ticketServiceImpl.getTicketById(id);
 		theModel.addAttribute("ticket", ticket);
-		return "viewTicket";
+		return "viewPage";
 
 	}
 
 	// going back to index page
 	@PostMapping("/submit")
-	public String submitTicket(@ModelAttribute Ticket t) {
+	public String submitTicket(@ModelAttribute TicketTrackerEntity t) {
 
 		return "redirect:/tickets";
 
@@ -93,12 +92,12 @@ public class TicketController {
 
 	// search functionality
 	@GetMapping(path = { "/search" })
-	public String home(Ticket ticket, Model model, String keyword) {
+	public String home(TicketTrackerEntity ticket, Model model, String keyword) {
 		if (keyword != null) {
-			List<Ticket> ticket1 = ticketServiceImpl.getByKeyword(keyword);
+			List<TicketTrackerEntity> ticket1 = ticketServiceImpl.getByKeyword(keyword);
 			model.addAttribute("ticket", ticket1);
 		} else {
-			List<Ticket> list = ticketServiceImpl.getAllTickets();
+			List<TicketTrackerEntity> list = ticketServiceImpl.getAllTickets();
 			model.addAttribute("list", list);
 		}
 		return "index";
